@@ -5,3 +5,4 @@
 # 5.24
 
 + templates 설정 및 hello world 찍기
++ input 추가하기
