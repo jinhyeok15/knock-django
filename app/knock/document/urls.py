@@ -3,5 +3,5 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.index, name='document-index'),
+    path('<str:doc_id>/', views.index, name='document-index'),
 ]

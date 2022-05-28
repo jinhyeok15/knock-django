@@ -9,9 +9,8 @@
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
 </head>
 <body>
-    Hello world!~!
-    <form action="" id="keyword-generator">
-        <input type="text" name="keyword-input" class="keyword-input">
+    <form action="{% url 'document-index' doc_id %}" method="get" id="keyword-generator">
+        <input type="text" name="keyword_input" class="keyword-input">
         <input type="submit" value="생성" class="keyword-submit">
     </form>
     <div id="container" class="container"></div>
