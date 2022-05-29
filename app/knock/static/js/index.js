@@ -5,5 +5,5 @@ const keywordSubmit = keywordGenerator.querySelector(".keyword-submit");
 const container = document.getElementById("container");
 
 function generateKeyword(event) {
-    event.preventDefault();
+  event.preventDefault();
 }

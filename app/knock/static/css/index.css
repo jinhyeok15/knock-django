@@ -1,10 +1,21 @@
 body {
-    background-color: antiquewhite;
+  background-color: antiquewhite;
 }
 
 .container {
-    position: absolute;
-    width: 800px;
-    height: 600px;
-    background-color: aliceblue;
+  position: absolute;
+  width: 800px;
+  height: 600px;
+  background-color: aliceblue;
+}
+
+ul {
+  list-style: none;
+}
+
+.keyword-box {
+  width: 80px;
+  height: 40px;
+  border: solid 1px;
+  text-align: center;
 }

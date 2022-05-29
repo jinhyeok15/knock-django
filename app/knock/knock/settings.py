@@ -124,4 +124,4 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 
 # Document setting
-KEYWORD_MAX_LENGTH = 8
+KEYWORD_MAX_LENGTH = 12
