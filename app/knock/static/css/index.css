@@ -1,12 +1,14 @@
 body {
   background-color: antiquewhite;
+  font-family: 'roboto', 'arial';
 }
 
 .container {
   position: absolute;
-  width: 800px;
+  width: 830px;
   height: 600px;
   background-color: aliceblue;
+  align-items: center;
 }
 
 ul {
@@ -17,5 +19,8 @@ ul {
   width: 80px;
   height: 40px;
   border: solid 1px;
+  margin-left: 20px;
+  margin-top: 20px;
   text-align: center;
+  float: left;
 }

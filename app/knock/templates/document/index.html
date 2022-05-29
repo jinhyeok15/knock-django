@@ -14,15 +14,11 @@
     <input type="submit" value="생성" class="keyword-submit">
   </form>
   <div id="container" class="container">
-    <ul>
-        {% for keyword in keywords %}
-        <li>
-          <div class="keyword-box">
-            {{keyword}}
-          </div>
-        </li>
-        {% endfor %}
-    </ul>
+    {% for keyword in keywords %}
+    <div class="keyword-box">
+      {{keyword}}
+    </div>
+    {% endfor %}
   </div>
   <script src="{% static 'js/index.js' %}"></script>
 </body>
