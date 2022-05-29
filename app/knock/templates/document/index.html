@@ -13,7 +13,13 @@
         <input type="text" name="keyword_input" class="keyword-input">
         <input type="submit" value="생성" class="keyword-submit">
     </form>
-    <div id="container" class="container"></div>
+    <div id="container" class="container">
+        <ul>
+            {% for keyword in keywords %}
+            <li>{{keyword}}</li>
+            {% endfor %}
+        </ul>
+    </div>
     <script src="{% static 'js/index.js' %}"></script>
 </body>
 </html>
