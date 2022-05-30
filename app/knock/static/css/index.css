@@ -5,7 +5,7 @@ body {
 
 .container {
   position: absolute;
-  width: 830px;
+  width: 800px;
   height: 600px;
   background-color: aliceblue;
   align-items: center;
@@ -18,9 +18,12 @@ ul {
 .keyword-box {
   width: 80px;
   height: 40px;
-  border: solid 1px;
+  border: solid 2px #1183e9ff;
   margin-left: 20px;
   margin-top: 20px;
-  text-align: center;
+  display : flex;
+  justify-content : center;
+  align-items : center;
   float: left;
+  border-radius: 10px;
 }

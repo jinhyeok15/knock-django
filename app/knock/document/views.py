@@ -20,13 +20,15 @@ def index(request, doc_id):
         return redirect('document-index', doc_id=doc_id)
     return render(request, 'document/index.html', {'doc_id': doc_id, 'keywords': keyword_list})
 
+
 def update_document(doc_id, keyword):
     doc = Document.objects.get(pk=doc_id)
     doc.keywords = doc.keywords + ' ' + keyword
     doc.save()
 
+
 def validate_keyword_input(keyword):
-    keyword = keyword.replace(' ', '')
+    keyword = keyword.replace(' ', '_')
     if len(keyword)>settings.KEYWORD_MAX_LENGTH:
         raise KeywordOutOfLengthError
     import re

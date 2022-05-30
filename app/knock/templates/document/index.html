@@ -10,7 +10,7 @@
 </head>
 <body>
   <form action="{% url 'document-index' doc_id %}" method="get" id="keyword-generator">
-    <input type="text" name="keyword_input" class="keyword-input">
+    <input type="text" name="keyword_input" class="keyword-input" autofocus>
     <input type="submit" value="생성" class="keyword-submit">
   </form>
   <div id="container" class="container">
@@ -20,6 +20,7 @@
     </div>
     {% endfor %}
   </div>
+  {{ doc_id|json_script:"doc-id" }}
   <script src="{% static 'js/index.js' %}"></script>
 </body>
 </html>

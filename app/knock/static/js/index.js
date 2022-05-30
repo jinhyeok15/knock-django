@@ -1,9 +1,17 @@
-const keywordGenerator = document.getElementById("keyword-generator");
-const keywordInput = keywordGenerator.querySelector(".keyword-input");
-const keywordSubmit = keywordGenerator.querySelector(".keyword-submit");
+const docId = JSON.parse(document.getElementById('doc-id').textContent);
 
-const container = document.getElementById("container");
+const docSocket = new WebSocket(
+  'ws://'
+  + window.location.host
+  + '/ws/doc/'
+  + docId
+  + '/'
+);
 
-function generateKeyword(event) {
-  event.preventDefault();
+docSocket.onmessage = function(e) {
+  const data = JSON.parse(e.data);
 }
+
+chatSocket.onclose = function(e) {
+  console.error('Chat socket closed unexpectedly');
+};
