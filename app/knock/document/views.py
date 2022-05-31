@@ -18,7 +18,11 @@ def index(request, doc_id):
             keyword_input = validate_keyword_input(keyword_input)
             update_document(doc_id, keyword_input)
         return redirect('document-index', doc_id=doc_id)
-    return render(request, 'document/index.html', {'doc_id': doc_id, 'keywords': keyword_list})
+    return render(request, 'document/index.html', {
+            'doc_id': doc_id, 
+            'keyword_list': keyword_list,
+            'keywords': obj.keywords
+        })
 
 
 def update_document(doc_id, keyword):

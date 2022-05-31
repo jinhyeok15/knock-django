@@ -1,4 +1,5 @@
 const docId = JSON.parse(document.getElementById('doc-id').textContent);
+const keywords = JSON.parse(document.getElementById('keywords').textContent);
 
 const docSocket = new WebSocket(
   'ws://'
@@ -10,8 +11,19 @@ const docSocket = new WebSocket(
 
 docSocket.onmessage = function(e) {
   const data = JSON.parse(e.data);
+  console.log(data.message)
 }
 
-chatSocket.onclose = function(e) {
-  console.error('Chat socket closed unexpectedly');
+docSocket.onclose = function(e) {
+  console.error('doc socket closed unexpectedly');
 };
+
+document.querySelector('#keyword-submit').onclick = function(e) {
+  e.preventDefault();
+  const messageInputDom = document.querySelector('#keyword-input');
+  const message = messageInputDom.value;
+  docSocket.send(JSON.stringify({
+      'message': message
+  }));
+  messageInputDom.value = '';
+}
