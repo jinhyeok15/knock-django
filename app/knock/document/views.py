@@ -12,8 +12,8 @@ def index(request, doc_id):
     # test doc_id=f0a84bfe-7b85-4479-b11f-4a5292500473
     obj = get_object_or_404(Document, pk=doc_id)
     keyword_list = obj.keywords.split(' ')
-    keywords = request.GET.get('keywords', None)
-    if keywords is not None:
+    if request.method=='POST':
+        keywords = request.POST.get('keywords')
         # if keywords != '':
         #     keywords = validate_keyword_input(keywords)
         update_document(doc_id, keywords)

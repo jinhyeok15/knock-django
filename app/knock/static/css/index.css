@@ -27,3 +27,7 @@ ul {
   float: left;
   border-radius: 10px;
 }
+
+.keyword-submit {
+  display: none;
+}

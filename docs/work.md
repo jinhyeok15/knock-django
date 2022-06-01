@@ -28,7 +28,8 @@
 
 ## 6.1
 
-- models Keyword 추가
 + Socket message 받아서 keyword push하기
++ index view post method로 변경하기
 
-- index view post method로 변경하기
+- 주기적으로 submit하기, log 찍기
+- models Keyword 추가

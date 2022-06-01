@@ -5,13 +5,13 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>KnocK</title>
   <link rel="stylesheet" href="{% static 'css/index.css' %}">
 </head>
 <body>
   <input type="text" name="keyword_input" class="keyword-input" id="keyword-input" autofocus>
   <button type="button" class="keyword-input-button" id="keyword-input-button">입력</button>
-  <form action="{% url 'document-index' doc_id %}" method="get" id="keyword-generator">
+  <form action="{% url 'document-index' doc_id %}" method="post" id="keyword-generator">{% csrf_token %}
     <input type="hidden" name="keywords" id="keywords-hidden" value="{{ keywords }}">
     <input type="submit" value="저장" class="keyword-submit" id="keyword-submit">
   </form>

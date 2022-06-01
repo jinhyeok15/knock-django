@@ -13,7 +13,10 @@ const docSocket = new WebSocket(
 
 docSocket.onmessage = function(e) {
   const data = JSON.parse(e.data);
+
+  // saving keywords to send django server
   keywordsHidden.value += (' ' + data.message);
+
   element = document.createElement("div");
   text = document.createTextNode(data.message);
   element.appendChild(text);
@@ -28,6 +31,7 @@ docSocket.onclose = function(e) {
 const keywordInput = document.querySelector('#keyword-input');
 const keywordInputButton = document.querySelector('#keyword-input-button');
 
+// enter key 눌렀을 때 버튼 클릭과 동일한 event로 만들기
 keywordInput.addEventListener("keypress", function(event) {
   // If the user presses the "Enter" key on the keyboard
   if (event.key === "Enter") {
