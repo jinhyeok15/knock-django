@@ -6,6 +6,9 @@ from django.conf import settings
 # exception
 from django.core.exceptions import ValidationError
 
+# serializer
+from django.core.serializers import serialize
+
 # Create your views here.
 
 def index(request, doc_id):
@@ -21,7 +24,7 @@ def index(request, doc_id):
     return render(request, 'document/index.html', {
             'doc_id': doc_id, 
             'keyword_list': keyword_list,
-            'keywords': obj.keywords
+            'keywords': obj.keywords,
         })
 
 

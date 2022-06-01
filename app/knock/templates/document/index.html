@@ -17,13 +17,12 @@
   </form>
   <div id="container" class="container">
     {% for keyword in keyword_list %}
-    <div class="keyword-box">
+    <div class="keyword-box" name="{{ doc_id }}_{{ keyword }}">
       {{keyword}}
     </div>
     {% endfor %}
   </div>
   {{ doc_id|json_script:"doc-id" }}
-  {{ keywords|json_script:"keywords"}}
-  <script src="{% static 'js/index.js' %}"></script>
+  <script type="module" src="{% static 'js/app.js' %}"></script>
 </body>
 </html>

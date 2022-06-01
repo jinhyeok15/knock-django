@@ -1,6 +1,15 @@
+import { crypt, decrypt } from './utils.js';
+
+// encrypting
+const encrypted_text = crypt("salt", "Hello"); // -> 426f666665
+console.log(encrypted_text)
+
+// decrypting
+const decrypted_string = decrypt("salt", "426f666665"); // -> Hello
+console.log(decrypted_string)
+
 const docId = JSON.parse(document.getElementById('doc-id').textContent);
-const keywords = JSON.parse(document.getElementById('keywords').textContent);
-const keywordsHidden = document.querySelector('#keywords-hidden');
+const keywordsHidden = document.getElementById('keywords-hidden');
 const container = document.getElementById('container');
 
 const docSocket = new WebSocket(
@@ -17,19 +26,19 @@ docSocket.onmessage = function(e) {
   // saving keywords to send django server
   keywordsHidden.value += (' ' + data.message);
 
-  element = document.createElement("div");
-  text = document.createTextNode(data.message);
-  element.appendChild(text);
-  element.classList.add("keyword-box");
-  container.appendChild(element);
+  let divElement = document.createElement("div");
+  const textElement = document.createTextNode(data.message);
+  divElement.appendChild(textElement);
+  divElement.classList.add("keyword-box");
+  container.appendChild(divElement);
 }
 
 docSocket.onclose = function(e) {
   console.error('doc socket closed unexpectedly');
 };
 
-const keywordInput = document.querySelector('#keyword-input');
-const keywordInputButton = document.querySelector('#keyword-input-button');
+const keywordInput = document.getElementById('keyword-input');
+const keywordInputButton = document.getElementById('keyword-input-button');
 
 // enter key 눌렀을 때 버튼 클릭과 동일한 event로 만들기
 keywordInput.addEventListener("keypress", function(event) {
