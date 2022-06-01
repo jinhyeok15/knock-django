@@ -25,3 +25,10 @@
 ## 5.31
 
 + WebSocket 활용 keyword 실시간 반영 구현
+
+## 6.1
+
+- models Keyword 추가
++ Socket message 받아서 keyword push하기
+
+- index view post method로 변경하기

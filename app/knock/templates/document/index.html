@@ -9,9 +9,11 @@
   <link rel="stylesheet" href="{% static 'css/index.css' %}">
 </head>
 <body>
+  <input type="text" name="keyword_input" class="keyword-input" id="keyword-input" autofocus>
+  <button type="button" class="keyword-input-button" id="keyword-input-button">입력</button>
   <form action="{% url 'document-index' doc_id %}" method="get" id="keyword-generator">
-    <input type="text" name="keyword_input" class="keyword-input" id="keyword-input" autofocus>
-    <input type="submit" value="입력" class="keyword-submit" id="keyword-submit">
+    <input type="hidden" name="keywords" id="keywords-hidden" value="{{ keywords }}">
+    <input type="submit" value="저장" class="keyword-submit" id="keyword-submit">
   </form>
   <div id="container" class="container">
     {% for keyword in keyword_list %}

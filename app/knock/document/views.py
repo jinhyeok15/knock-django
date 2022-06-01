@@ -12,11 +12,11 @@ def index(request, doc_id):
     # test doc_id=f0a84bfe-7b85-4479-b11f-4a5292500473
     obj = get_object_or_404(Document, pk=doc_id)
     keyword_list = obj.keywords.split(' ')
-    keyword_input = request.GET.get('keyword_input', None)
-    if keyword_input is not None:
-        if keyword_input != '':
-            keyword_input = validate_keyword_input(keyword_input)
-            update_document(doc_id, keyword_input)
+    keywords = request.GET.get('keywords', None)
+    if keywords is not None:
+        # if keywords != '':
+        #     keywords = validate_keyword_input(keywords)
+        update_document(doc_id, keywords)
         return redirect('document-index', doc_id=doc_id)
     return render(request, 'document/index.html', {
             'doc_id': doc_id, 
@@ -25,9 +25,9 @@ def index(request, doc_id):
         })
 
 
-def update_document(doc_id, keyword):
+def update_document(doc_id, keywords):
     doc = Document.objects.get(pk=doc_id)
-    doc.keywords = doc.keywords + ' ' + keyword
+    doc.keywords = keywords
     doc.save()
 
 
