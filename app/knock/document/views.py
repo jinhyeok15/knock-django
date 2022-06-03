@@ -9,29 +9,37 @@ from django.core.exceptions import ValidationError
 # serializer
 from django.core.serializers import serialize
 
+import json
+import jwt
+
 # Create your views here.
 
 def index(request, doc_id):
     # test doc_id=f0a84bfe-7b85-4479-b11f-4a5292500473
+    context = {
+        'doc_id': doc_id,
+        'keyword_list': [],
+        'keywords': ''
+    }
     obj = get_object_or_404(Document, pk=doc_id)
-    keyword_list = obj.keywords.split(' ')
+    
+    if obj.keywords:
+        context['keyword_list'] = list(map(lambda token: json.dumps(jwt.decode(token, '', algorithms=['HS256'])), obj.keywords.split(' ')))
+        context['keywords'] = '||'.join(context['keyword_list'])
+
     if request.method=='POST':
         keywords = request.POST.get('keywords')
-        # if keywords != '':
-        #     keywords = validate_keyword_input(keywords)
         update_document(doc_id, keywords)
         return redirect('document-index', doc_id=doc_id)
-    return render(request, 'document/index.html', {
-            'doc_id': doc_id, 
-            'keyword_list': keyword_list,
-            'keywords': obj.keywords,
-        })
+    return render(request, 'document/index.html', context)
 
 
 def update_document(doc_id, keywords):
-    doc = Document.objects.get(pk=doc_id)
-    doc.keywords = keywords
-    doc.save()
+    if keywords:
+        keywords = ' '.join(map(lambda d: jwt.encode(json.loads(d), '', algorithm='HS256'), keywords.split('||')))
+        doc = Document.objects.get(pk=doc_id)
+        doc.keywords = keywords
+        doc.save()
 
 
 def validate_keyword_input(keyword):

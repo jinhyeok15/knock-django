@@ -12,16 +12,16 @@
   <input type="text" name="keyword_input" class="keyword-input" id="keyword-input" autofocus>
   <button type="button" class="keyword-input-button" id="keyword-input-button">입력</button>
   <form action="{% url 'document-index' doc_id %}" method="post" id="keyword-generator">{% csrf_token %}
-    <input type="hidden" name="keywords" id="keywords-hidden" value="{{ keywords }}">
+    <input type="hidden" name="keywords" id="keywords-data-form" value="{{ keywords }}">
     <input type="submit" value="저장" class="keyword-submit" id="keyword-submit">
   </form>
   <div id="container" class="container">
-    {% for keyword in keyword_list %}
-    <div class="keyword-box" name="{{ doc_id }}_{{ keyword }}">
-      {{keyword}}
-    </div>
-    {% endfor %}
   </div>
+  <datalist id="keyword-list">
+    {% for keyword in keyword_list %}
+    <option value="{{ keyword }}">
+    {% endfor %}
+  </datalist>
   {{ doc_id|json_script:"doc-id" }}
   <script type="module" src="{% static 'js/app.js' %}"></script>
 </body>

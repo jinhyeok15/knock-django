@@ -1,8 +1,8 @@
-import * as index from './index.js';
+import { index } from './index.js';
 
 class App {
   constructor() {
-    this.index = index;
+    index();
   }
 }
 

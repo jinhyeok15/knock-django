@@ -32,5 +32,10 @@
 + index view post method로 변경하기
 + app.js onload
 
+## 6.3
+
++ document keywords에 jwt를 담게 변경
+
 - 주기적으로 submit하기, log 찍기
-- models Keyword 추가
+- delete 및 키워드 상세 조회하기, update
+- form 데이터 변경을 submit()시에만 하기
