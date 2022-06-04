@@ -1,13 +1,12 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from .models import Document
 
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 # exception
 from django.core.exceptions import ValidationError
-
-# serializer
-from django.core.serializers import serialize
 
 import json
 import jwt
@@ -15,31 +14,36 @@ import jwt
 # Create your views here.
 
 def index(request, doc_id):
-    # test doc_id=f0a84bfe-7b85-4479-b11f-4a5292500473
+    # test doc_id=e7002e35-b6bf-46ec-bce5-e5e0c53c151c
     context = {
         'doc_id': doc_id,
         'keyword_list': [],
-        'keywords': ''
     }
     obj = get_object_or_404(Document, pk=doc_id)
-    
+
     if obj.keywords:
         context['keyword_list'] = list(map(lambda token: json.dumps(jwt.decode(token, '', algorithms=['HS256'])), obj.keywords.split(' ')))
-        context['keywords'] = '||'.join(context['keyword_list'])
-
-    if request.method=='POST':
-        keywords = request.POST.get('keywords')
-        update_document(doc_id, keywords)
-        return redirect('document-index', doc_id=doc_id)
     return render(request, 'document/index.html', context)
 
 
-def update_document(doc_id, keywords):
-    if keywords:
-        keywords = ' '.join(map(lambda d: jwt.encode(json.loads(d), '', algorithm='HS256'), keywords.split('||')))
-        doc = Document.objects.get(pk=doc_id)
-        doc.keywords = keywords
-        doc.save()
+# use api
+def get_data(request):
+    return json.loads(request.body.decode('utf-8'))
+
+@csrf_exempt
+def document_detail(request, doc_id):
+    try:
+        obj = Document.objects.get(pk=doc_id)
+    except Document.DoesNotExist:
+        return JsonResponse({'code': 404})
+
+    if request.method == 'PUT':
+        keywords = get_data(request)['data']
+        if keywords:
+            keywords = ' '.join(map(lambda d: jwt.encode(d, '', algorithm='HS256'), keywords))
+            obj.keywords = keywords
+            obj.save()
+        return JsonResponse({'code': 200})
 
 
 def validate_keyword_input(keyword):

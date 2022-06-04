@@ -36,6 +36,10 @@
 
 + document keywords에 jwt를 담게 변경
 
+## 6.4
+
++ form 데이터 변경을 submit()시에만 하기
++ submit 시 update 로직을 api를 fetch해서 처리하기
+
 - 주기적으로 submit하기, log 찍기
 - delete 및 키워드 상세 조회하기, update
-- form 데이터 변경을 submit()시에만 하기

@@ -1,15 +1,20 @@
+import { PUT, LOCALHOST } from "./api.js";
+
 const MAX_KEYWORD_LENGTH = 12;
 
 const docId = JSON.parse(document.getElementById('doc-id').textContent);
 const keywordList = document.getElementById('keyword-list');
-const keywordArray = [].slice.call(keywordList.children);
 
-// div를 생성할 수 있게 해주는 data
-const keywordData = keywordArray.map(e => JSON.parse(e.value))
+function getKeywordData() {
+  const keywordArray = [].slice.call(keywordList.children);
 
-// save시 form에 실어 보낼 데이터
-const keywordsDataFormElement = document.getElementById('keywords-data-form');
+  // div를 생성할 수 있게 해주는 data
+  const keywordData = {data: keywordArray.map(e => JSON.parse(e.value))}
 
+  return keywordData;
+}
+
+const keywordSubmitFormElement = document.getElementById('keyword-submit-form');
 const containerElement = document.getElementById('container');
 
 const docSocket = new WebSocket(
@@ -32,15 +37,18 @@ docSocket.onmessage = (e) => {
     left: 0,
     top: 0
   }
-  // saving keywords to send django server
-  const keywordsDataFormValue = keywordsDataFormElement.value;
-  const pushingData = (keywordsDataFormValue==='') ? JSON.stringify(keywordInfo) : ('||' + JSON.stringify(keywordInfo));
-  keywordsDataFormElement.value += pushingData;
 
-  createKeywordBox(keywordInfo);
+  pushKeywordElement(keywordInfo);
+  createKeywordBoxElement(keywordInfo);
 }
 
-const createKeywordBox = (keywordInfo) => {
+const pushKeywordElement = (keywordInfo) => {
+  let optionElement = document.createElement("option");
+  optionElement.value = JSON.stringify(keywordInfo);
+  keywordList.appendChild(optionElement);
+}
+
+const createKeywordBoxElement = (keywordInfo) => {
   let divElement = document.createElement("div");
   const textElement = document.createTextNode(keywordInfo.value);
   divElement.appendChild(textElement);
@@ -78,7 +86,21 @@ keywordInputButtonElement.onclick = (event) => {
   messageInputDom.value = '';
 }
 
+const DOCUMENT_DETAIL_URI = `/api/document/${docId}/`
+
+keywordSubmitFormElement.onsubmit = (event) => {
+  event.preventDefault();
+  PUT(`${LOCALHOST}${DOCUMENT_DETAIL_URI}`, getKeywordData())
+    .then(response => {
+      if (response.status===200) {
+        console.log('SUCCESS')
+      } else if (response.status===404) {
+        console.log('NOT FOUND')
+      }
+    });
+}
+
 export const index = () => {
   // keywordData 기반 div 생성
-  keywordData.map(createKeywordBox)
+  getKeywordData().data.map(createKeywordBoxElement)
 }
