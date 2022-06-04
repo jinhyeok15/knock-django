@@ -40,6 +40,8 @@
 
 + form 데이터 변경을 submit()시에만 하기
 + submit 시 update 로직을 api를 fetch해서 처리하기
++ list data 대신 jwt를 json으로 변환하여 context로 전달
 
+- JsonResponse custom하기, document_detail validation 로직 적용하기
 - 주기적으로 submit하기, log 찍기
 - delete 및 키워드 상세 조회하기, update

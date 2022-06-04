@@ -1,28 +1,28 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Document
-
 from django.conf import settings
+
+# api
+import json
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 
 # exception
 from django.core.exceptions import ValidationError
 
-import json
-import jwt
+# utils
+from knock.utils import parse_token, tokenize
 
 # Create your views here.
 
 def index(request, doc_id):
     # test doc_id=e7002e35-b6bf-46ec-bce5-e5e0c53c151c
-    context = {
-        'doc_id': doc_id,
-        'keyword_list': [],
-    }
     obj = get_object_or_404(Document, pk=doc_id)
 
-    if obj.keywords:
-        context['keyword_list'] = list(map(lambda token: json.dumps(jwt.decode(token, '', algorithms=['HS256'])), obj.keywords.split(' ')))
+    context = {
+        'doc_id': doc_id,
+        'keywords': json.dumps(parse_token(obj.keywords))
+    }
     return render(request, 'document/index.html', context)
 
 
@@ -38,11 +38,9 @@ def document_detail(request, doc_id):
         return JsonResponse({'code': 404})
 
     if request.method == 'PUT':
-        keywords = get_data(request)['data']
-        if keywords:
-            keywords = ' '.join(map(lambda d: jwt.encode(d, '', algorithm='HS256'), keywords))
-            obj.keywords = keywords
-            obj.save()
+        keywords = get_data(request)
+        obj.keywords = tokenize(keywords)
+        obj.save()
         return JsonResponse({'code': 200})
 
 

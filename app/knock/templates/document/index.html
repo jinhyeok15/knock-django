@@ -11,14 +11,8 @@
 <body>
   <input type="text" name="keyword_input" class="keyword-input" id="keyword-input" autofocus>
   <button type="button" class="keyword-input-button" id="keyword-input-button">입력</button>
-  <form action="" method="post" id="keyword-submit-form">
-    {% csrf_token %}
-    <input type="hidden" list="keyword-list">
-    <datalist id="keyword-list">
-      {% for keyword in keyword_list %}
-      <option value="{{ keyword }}">
-      {% endfor %}
-    </datalist>
+  <form id="keyword-submit-form">
+    <input type="hidden" id="keywords-data" value="{{ keywords }}">
     <input type="submit" value="저장" class="keyword-submit" id="keyword-submit">
   </form>
   <div id="container" class="container">

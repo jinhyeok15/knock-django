@@ -3,15 +3,13 @@ import { PUT, LOCALHOST } from "./api.js";
 const MAX_KEYWORD_LENGTH = 12;
 
 const docId = JSON.parse(document.getElementById('doc-id').textContent);
-const keywordList = document.getElementById('keyword-list');
 
-function getKeywordData() {
-  const keywordArray = [].slice.call(keywordList.children);
+function getKeywordsData() {
+  return JSON.parse(document.getElementById('keywords-data').value);
+}
 
-  // div를 생성할 수 있게 해주는 data
-  const keywordData = {data: keywordArray.map(e => JSON.parse(e.value))}
-
-  return keywordData;
+function setKeywordsData(data) {
+  document.getElementById('keywords-data').value = JSON.stringify(data);
 }
 
 const keywordSubmitFormElement = document.getElementById('keyword-submit-form');
@@ -38,14 +36,14 @@ docSocket.onmessage = (e) => {
     top: 0
   }
 
-  pushKeywordElement(keywordInfo);
+  pushKeyword(keywordInfo);
   createKeywordBoxElement(keywordInfo);
 }
 
-const pushKeywordElement = (keywordInfo) => {
-  let optionElement = document.createElement("option");
-  optionElement.value = JSON.stringify(keywordInfo);
-  keywordList.appendChild(optionElement);
+const pushKeyword = (keywordInfo) => {
+  const keywordsData = getKeywordsData().data;
+  keywordsData.push(keywordInfo);
+  setKeywordsData({data: keywordsData})
 }
 
 const createKeywordBoxElement = (keywordInfo) => {
@@ -90,7 +88,7 @@ const DOCUMENT_DETAIL_URI = `/api/document/${docId}/`
 
 keywordSubmitFormElement.onsubmit = (event) => {
   event.preventDefault();
-  PUT(`${LOCALHOST}${DOCUMENT_DETAIL_URI}`, getKeywordData())
+  PUT(`${LOCALHOST}${DOCUMENT_DETAIL_URI}`, getKeywordsData())
     .then(response => {
       if (response.status===200) {
         console.log('SUCCESS')
@@ -102,5 +100,5 @@ keywordSubmitFormElement.onsubmit = (event) => {
 
 export const index = () => {
   // keywordData 기반 div 생성
-  getKeywordData().data.map(createKeywordBoxElement)
+  getKeywordsData().data.map(createKeywordBoxElement)
 }
