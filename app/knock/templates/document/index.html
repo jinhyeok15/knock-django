@@ -17,7 +17,7 @@
   </form>
   <div id="container" class="container">
   </div>
-  {{ doc_id|json_script:"doc-id" }}
+  {{ obj.id|json_script:"doc-id" }}
   <script type="module" src="{% static 'js/app.js' %}"></script>
 </body>
 </html>

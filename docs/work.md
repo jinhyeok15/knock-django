@@ -42,6 +42,11 @@
 + submit 시 update 로직을 api를 fetch해서 처리하기
 + list data 대신 jwt를 json으로 변환하여 context로 전달
 
+## 6.5
+
++ frontend api request 파트 분할, Keyword, Content schema 생성 및 document_keyword API 추가
+
 - JsonResponse custom하기, document_detail validation 로직 적용하기
 - 주기적으로 submit하기, log 찍기
 - delete 및 키워드 상세 조회하기, update
+- schema model 생성 시 id timestamp가 똑같이 찍히는 bug 수정하기

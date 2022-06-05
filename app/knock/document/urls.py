@@ -10,6 +10,7 @@ urlpatterns = [
 
     # api
     path('api/document/', include(([
-        path('<str:doc_id>/', views.document_detail, name='api-document-detail')
+        path('<str:doc_id>/', views.document_detail, name='api-document-detail'),
+        path('<str:doc_id>/keyword/', views.document_keyword, name='api-document-keyword')
     ], 'document'), namespace='api')),
 ]

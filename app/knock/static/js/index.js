@@ -1,4 +1,4 @@
-import { PUT, LOCALHOST } from "./api.js";
+import { requestAddDocumentKeyword, requestSaveDocument } from "./api/request.js";
 
 const MAX_KEYWORD_LENGTH = 12;
 
@@ -23,32 +23,29 @@ const docSocket = new WebSocket(
   + '/'
 );
 
-docSocket.onmessage = (e) => {
+docSocket.onmessage = async (e) => {
   const data = JSON.parse(e.data);
   const keywordValue = data.message;
   if (keywordValue === '') {
-    return
-  }
-  const keywordInfo = {
-    doc_id: docId,
-    value: keywordValue,
-    left: 0,
-    top: 0
+    return;
   }
 
+  // keywordInfo는 API를 활용해서 데이터 가져오기
+  const responseData = await requestAddDocumentKeyword(docId, keywordValue);
+  const keywordInfo = responseData.data;
   pushKeyword(keywordInfo);
   createKeywordBoxElement(keywordInfo);
 }
 
 const pushKeyword = (keywordInfo) => {
-  const keywordsData = getKeywordsData().data;
+  const keywordsData = getKeywordsData().keywords;
   keywordsData.push(keywordInfo);
-  setKeywordsData({data: keywordsData})
+  setKeywordsData({keywords: keywordsData})
 }
 
 const createKeywordBoxElement = (keywordInfo) => {
   let divElement = document.createElement("div");
-  const textElement = document.createTextNode(keywordInfo.value);
+  const textElement = document.createTextNode(keywordInfo.title);
   divElement.appendChild(textElement);
   divElement.classList.add("keyword-box");
   divElement.style.left = keywordInfo.left;
@@ -84,21 +81,12 @@ keywordInputButtonElement.onclick = (event) => {
   messageInputDom.value = '';
 }
 
-const DOCUMENT_DETAIL_URI = `/api/document/${docId}/`
-
-keywordSubmitFormElement.onsubmit = (event) => {
+keywordSubmitFormElement.onsubmit = async (event) => {
   event.preventDefault();
-  PUT(`${LOCALHOST}${DOCUMENT_DETAIL_URI}`, getKeywordsData())
-    .then(response => {
-      if (response.status===200) {
-        console.log('SUCCESS')
-      } else if (response.status===404) {
-        console.log('NOT FOUND')
-      }
-    });
+  await requestSaveDocument(docId, getKeywordsData());
 }
 
 export const index = () => {
   // keywordData 기반 div 생성
-  getKeywordsData().data.map(createKeywordBoxElement)
+  getKeywordsData().keywords.map(createKeywordBoxElement)
 }
