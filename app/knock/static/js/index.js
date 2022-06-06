@@ -1,18 +1,14 @@
-import { requestAddDocumentKeyword, requestSaveDocument } from "./api/request.js";
+import { requestAddDocumentKeyword, requestGetDocumentData } from "./api/request.js";
 
 const MAX_KEYWORD_LENGTH = 12;
 
 const docId = JSON.parse(document.getElementById('doc-id').textContent);
 
-function getKeywordsData() {
-  return JSON.parse(document.getElementById('keywords-data').value);
+async function getDocumentData() {
+  const documentResponse = await requestGetDocumentData(docId);
+  return documentResponse.data;
 }
 
-function setKeywordsData(data) {
-  document.getElementById('keywords-data').value = JSON.stringify(data);
-}
-
-const keywordSubmitFormElement = document.getElementById('keyword-submit-form');
 const containerElement = document.getElementById('container');
 
 const docSocket = new WebSocket(
@@ -33,14 +29,7 @@ docSocket.onmessage = async (e) => {
   // keywordInfo는 API를 활용해서 데이터 가져오기
   const responseData = await requestAddDocumentKeyword(docId, keywordValue);
   const keywordInfo = responseData.data;
-  pushKeyword(keywordInfo);
   createKeywordBoxElement(keywordInfo);
-}
-
-const pushKeyword = (keywordInfo) => {
-  const keywordsData = getKeywordsData().keywords;
-  keywordsData.push(keywordInfo);
-  setKeywordsData({keywords: keywordsData})
 }
 
 const createKeywordBoxElement = (keywordInfo) => {
@@ -50,6 +39,7 @@ const createKeywordBoxElement = (keywordInfo) => {
   divElement.classList.add("keyword-box");
   divElement.style.left = keywordInfo.left;
   divElement.style.top = keywordInfo.top;
+  divElement.setAttribute('id', `${docId}-keyword-${keywordInfo.id}`)
   containerElement.appendChild(divElement);
 }
 
@@ -81,12 +71,8 @@ keywordInputButtonElement.onclick = (event) => {
   messageInputDom.value = '';
 }
 
-keywordSubmitFormElement.onsubmit = async (event) => {
-  event.preventDefault();
-  await requestSaveDocument(docId, getKeywordsData());
-}
-
-export const index = () => {
+export const index = async () => {
   // keywordData 기반 div 생성
-  getKeywordsData().keywords.map(createKeywordBoxElement)
+  const documentData = await getDocumentData();
+  documentData.keywords.map(createKeywordBoxElement)
 }

@@ -11,10 +11,6 @@
 <body>
   <input type="text" name="keyword_input" class="keyword-input" id="keyword-input" autofocus>
   <button type="button" class="keyword-input-button" id="keyword-input-button">입력</button>
-  <form id="keyword-submit-form">
-    <input type="hidden" id="keywords-data" value="{{ keywords }}">
-    <input type="submit" value="저장" class="keyword-submit" id="keyword-submit">
-  </form>
   <div id="container" class="container">
   </div>
   {{ obj.id|json_script:"doc-id" }}

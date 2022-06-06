@@ -46,7 +46,13 @@
 
 + frontend api request 파트 분할, Keyword, Content schema 생성 및 document_keyword API 추가
 
-- JsonResponse custom하기, document_detail validation 로직 적용하기
-- 주기적으로 submit하기, log 찍기
-- delete 및 키워드 상세 조회하기, update
-- schema model 생성 시 id timestamp가 똑같이 찍히는 bug 수정하기
+## 6.6
+
++ models에 Keyword 추가하기. Document title 컬럼 추가
++ restframework 적용하여 API refactoring
+
+## 해야할 것
+
++ JsonResponse custom하기, document_detail validation 로직 적용하기
++ delete 및 키워드 상세 조회하기, update
++ keyword link_to manytomanyfield 버그 수정하기

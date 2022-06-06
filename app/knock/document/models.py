@@ -1,38 +1,27 @@
 from django.db import models
 import uuid
+from django.conf import settings
 
-from knock.nosql import object_default
-from knock.utils import parse_token, tokenize
 # Create your models here.
-
-class DocumentManager(models.Manager):
-    def create(self, *args, keywords='', **kwargs):
-        if keywords=='':
-            keywords = object_default('keywords', many=True)
-        return super().create(*args, keywords=keywords, **kwargs)
 
 
 class Document(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    keywords = models.TextField()  # jwt 사용
+    title = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    objects = DocumentManager()
-
     class Meta:
         db_table = 'document'
-    
-    def decode_keywords(self):
-        return parse_token(self.keywords)
-    
-    def update_keywords(self, json_data):
-        self.keywords = tokenize(json_data)
-        self.save()
-    
-    def create_keyword(self, keyword_data):
-        keyword_list = self.decode_keywords()['keywords']
-        keyword_list.append(keyword_data)
-        data = {'keywords': keyword_list}
-        self.update_keywords(data)
-        return keyword_data
+
+
+class Keyword(models.Model):
+    id = models.AutoField(primary_key=True)
+    document = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='keywords')
+    title = models.CharField(max_length=settings.KEYWORD_MAX_LENGTH)
+    left = models.IntegerField(default=0)
+    top = models.IntegerField(default=0)
+    link_to = models.ManyToManyField('Keyword')
+
+    class Meta:
+        db_table = 'keyword'

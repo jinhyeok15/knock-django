@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'channels',
+    'rest_framework',
     # Local apps
     'document',
 ]
@@ -132,5 +133,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 
-# Document setting
+# Document settings
 KEYWORD_MAX_LENGTH = 12
+MAX_LEFT = 800
+MAX_TOP = 600

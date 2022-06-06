@@ -7,23 +7,20 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 
+# serializers
+from .serializers import DocumentSerializer, KeywordCreateSerializer, KeywordSerializer
+
 # exception
 from django.core.exceptions import ValidationError
 
-# utils
-from knock.utils import parse_token, tokenize
-
-# schemas
-from .schemas import Keyword
-
 # Create your views here.
+
 
 def index(request, doc_id):
     # test doc_id=e7002e35-b6bf-46ec-bce5-e5e0c53c151c
     obj = get_object_or_404(Document, pk=doc_id)
     context = {
         'obj': obj,
-        'keywords': json.dumps(obj.decode_keywords())
     }
     return render(request, 'document/index.html', context)
 
@@ -35,33 +32,33 @@ def get_data(request):
 
 @csrf_exempt
 def document_detail(request, doc_id):
-    request_data = get_data(request)
     try:
         obj = Document.objects.get(pk=doc_id)
     except Document.DoesNotExist:
         return JsonResponse({'code': 404})
 
-    if request.method == 'PUT':
-        obj.update_keywords(request_data)
-        return JsonResponse({'code': 200})
+    serializer = DocumentSerializer(obj)
+
+    if request.method == 'GET':
+        return JsonResponse({'code': 200, 'status': 'OK', 'data': serializer.data})
 
 
 @csrf_exempt
 def document_keyword(request, doc_id):
     request_data = get_data(request)
-
-    try:
-        obj = Document.objects.get(pk=doc_id)
-    except Document.DoesNotExist:
-        return JsonResponse({'code': 404})
+    serializer = KeywordCreateSerializer(data=request_data)
 
     if request.method == 'POST':
-        keyword = Keyword(**request_data)
-        data = obj.create_keyword(keyword.dict())
+        if not serializer.is_valid():
+            return JsonResponse({
+                'code': 400,
+                'status': 'BAD_REQUEST',
+            })
+        keyword = serializer.save()
         return JsonResponse({
             'code': 200,
             'status': 'OK',
-            'data': data
+            'data': KeywordSerializer(keyword).data
         })
 
 

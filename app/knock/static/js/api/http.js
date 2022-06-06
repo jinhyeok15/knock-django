@@ -19,14 +19,19 @@ function setRequestInit(data={}, method='') {
   return initDefault;
 }
 
-export async function POST(url = '', body = {}) {
+export async function POST(url='', body={}) {
   // Default options are marked with *
   const response = await fetch(url, setRequestInit(body, 'POST'));
   return response.json(); // parses JSON response into native JavaScript objects
 }
 
-export async function PUT(url = '', body = {}) {
+export async function PUT(url='', body={}) {
   // Default options are marked with *
   const response = await fetch(url, setRequestInit(body, 'PUT'));
   return response.json(); // parses JSON response into native JavaScript objects
+}
+
+export async function GET(url='') {
+  const response = await fetch(url);
+  return response.json();
 }
