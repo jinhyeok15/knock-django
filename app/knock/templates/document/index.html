@@ -7,13 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KnocK</title>
   <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <script type="module" src="{% static 'js/app.js' %}"></script>
+  {{ obj.id|json_script:"doc-id" }}
 </head>
 <body>
-  <input type="text" name="keyword_input" class="keyword-input" id="keyword-input" autofocus>
-  <button type="button" class="keyword-input-button" id="keyword-input-button">입력</button>
-  <div id="container" class="container">
-  </div>
-  {{ obj.id|json_script:"doc-id" }}
-  <script type="module" src="{% static 'js/app.js' %}"></script>
 </body>
 </html>

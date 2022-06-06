@@ -49,10 +49,16 @@
 ## 6.6
 
 + models에 Keyword 추가하기. Document title 컬럼 추가
-+ restframework 적용하여 API refactoring
++ rest-framework 적용하여 API refactoring
+
+## 6.7
+
++ js 구조 리팩토링 하기
 
 ## 해야할 것
 
-+ JsonResponse custom하기, document_detail validation 로직 적용하기
 + delete 및 키워드 상세 조회하기, update
 + keyword link_to manytomanyfield 버그 수정하기
++ JsonResponse를 rest-framework Response로 수정하기
++ Response custom하기, document_detail validation 로직 적용하기
++ onmessage시 마다 api 호출하는 코드 리팩토링

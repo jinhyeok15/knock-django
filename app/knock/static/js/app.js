@@ -1,8 +1,8 @@
-import { index } from './index.js';
+import { Document } from './Document.js';
 
 class App {
   constructor() {
-    index();
+    Document();
   }
 }
 

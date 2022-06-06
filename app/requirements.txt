@@ -1,6 +1,4 @@
 django==4.0.4
 channels==3.0.4
 channels-redis==3.4.0
-PyJWT
-pydantic==1.9.1
 djangorestframework==3.13.1
