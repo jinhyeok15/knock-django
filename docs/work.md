@@ -54,6 +54,7 @@
 ## 6.7
 
 + js 구조 리팩토링 하기
++ keyword 클릭시 keywordId 찍기
 
 ## 해야할 것
 
@@ -61,4 +62,4 @@
 + keyword link_to manytomanyfield 버그 수정하기
 + JsonResponse를 rest-framework Response로 수정하기
 + Response custom하기, document_detail validation 로직 적용하기
-+ onmessage시 마다 api 호출하는 코드 리팩토링
++ onmessage시 마다 api 호출하는 코드 리팩토링 -> localStorage 활용 render 부분에서만 api 활용

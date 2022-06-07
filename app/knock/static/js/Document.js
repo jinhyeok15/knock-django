@@ -6,9 +6,13 @@ import {
   Container,
   KeywordBox
 } from "./components/document/index.js";
+import { DocumentStorage } from "./store.js";
 
 // props
 const docId = JSON.parse(document.getElementById('doc-id').textContent);
+
+// store
+const storage = new DocumentStorage();
 
 // socket
 const docSocket = new WebSocket(
@@ -26,7 +30,17 @@ const containerElement = render(Container());
 
 requestGetDocumentData(docId)
   .then(json => json.data)
-  .then(data => data.keywords.map(createKeywordBoxElement));
+  .then(data => {
+    data.keywords
+      .map((createKeywordBoxElement))
+      .map((elem) => {
+        const getKeywordId = () => elem.id.split('-').slice(-1)[0];
+        elem.querySelector('a').onclick = (event) => {
+          event.preventDefault();
+          console.log(getKeywordId());
+        }
+      })
+  });
 
 function createKeywordBoxElement(keywordInfo) {
   return render(KeywordBox(docId, keywordInfo), parent=containerElement);
