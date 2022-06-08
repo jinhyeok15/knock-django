@@ -3,9 +3,9 @@ from .models import Document
 from django.conf import settings
 
 # api
-import json
-from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
 # serializers
 from .serializers import DocumentSerializer, KeywordCreateSerializer, KeywordSerializer
@@ -26,40 +26,37 @@ def index(request, doc_id):
 
 
 # use api
-def get_data(request):
-    return json.loads(request.body.decode('utf-8'))
+class DocumentDetail(APIView):
+
+    def get(self, request, doc_id):
+        try:
+            obj = Document.objects.get(pk=doc_id)
+        except Document.DoesNotExist:
+            return Response({'code': 404}, status=status.HTTP_404_NOT_FOUND)
+        serializer = DocumentSerializer(obj)
+
+        return Response({
+            'code': 200, 
+            'status': 'OK', 
+            'data': serializer.data}, status=status.HTTP_200_OK)
 
 
-@csrf_exempt
-def document_detail(request, doc_id):
-    try:
-        obj = Document.objects.get(pk=doc_id)
-    except Document.DoesNotExist:
-        return JsonResponse({'code': 404})
+class DocumentKeyword(APIView):
 
-    serializer = DocumentSerializer(obj)
+    def post(self, request, doc_id):
+        serializer = KeywordCreateSerializer(data=request.data)
 
-    if request.method == 'GET':
-        return JsonResponse({'code': 200, 'status': 'OK', 'data': serializer.data})
-
-
-@csrf_exempt
-def document_keyword(request, doc_id):
-    request_data = get_data(request)
-    serializer = KeywordCreateSerializer(data=request_data)
-
-    if request.method == 'POST':
         if not serializer.is_valid():
-            return JsonResponse({
+            return Response({
                 'code': 400,
                 'status': 'BAD_REQUEST',
-            })
+            }, status=status.HTTP_400_BAD_REQUEST)
         keyword = serializer.save()
-        return JsonResponse({
+        return Response({
             'code': 200,
             'status': 'OK',
             'data': KeywordSerializer(keyword).data
-        })
+        }, status=status.HTTP_200_OK)
 
 
 def validate_keyword_input(keyword):

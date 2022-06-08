@@ -6,7 +6,7 @@ import {
   Container,
 } from "./components/document/index.js";
 import { DocumentStorage } from "./store.js";
-import { Keyword } from "./components/document/Keyword.js";
+import { Keyword } from "./components/document/keyword.js";
 import { getDocSocket } from "./socket.js";
 
 // props

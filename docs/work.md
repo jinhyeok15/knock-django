@@ -60,9 +60,9 @@
 
 + keyword componenet 분리
 + 새 키워드 추가 시 클릭하면 redirect되는 버그 고치기
++ JsonResponse를 rest-framework Response로 수정하기
 
 ## 해야할 것
 
 + delete 및 키워드 상세 조회하기, update
-+ JsonResponse를 rest-framework Response로 수정하기
 + Response custom하기, document_detail validation 로직 적용하기
