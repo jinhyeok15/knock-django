@@ -4,47 +4,33 @@ import {
   KeywordInput,
   KeywordInputButton,
   Container,
-  KeywordBox
 } from "./components/document/index.js";
 import { DocumentStorage } from "./store.js";
+import { Keyword } from "./components/document/Keyword.js";
+import { getDocSocket } from "./socket.js";
 
 // props
 const docId = JSON.parse(document.getElementById('doc-id').textContent);
 
 // store
-const storage = new DocumentStorage();
+const storage = new DocumentStorage(docId);
 
 // socket
-const docSocket = new WebSocket(
-  'ws://'
-  + window.location.host
-  + '/ws/doc/'
-  + docId
-  + '/'
-);
+const docSocket = getDocSocket(docId);
 
 // rendering
 const keywordInputElement = render(KeywordInput());
 const keywordInputButtonElement = render(KeywordInputButton());
 const containerElement = render(Container());
 
-requestGetDocumentData(docId)
-  .then(json => json.data)
-  .then(data => {
-    data.keywords
-      .map((createKeywordBoxElement))
-      .map((elem) => {
-        const getKeywordId = () => elem.id.split('-').slice(-1)[0];
-        elem.querySelector('a').onclick = (event) => {
-          event.preventDefault();
-          console.log(getKeywordId());
-        }
-      })
-  });
+const keywordComponents = [];
 
-function createKeywordBoxElement(keywordInfo) {
-  return render(KeywordBox(docId, keywordInfo), parent=containerElement);
-}
+requestGetDocumentData(docId)
+  .then(docData => storage.store(docData.data))
+  .then(loc => loc.state.keywords
+    .map(info => keywordComponents.push(
+        (new Keyword(info)).render(containerElement)
+      )));
 
 // on-listening
 export const Document = () => {
@@ -58,7 +44,10 @@ export const Document = () => {
     // keywordInfo는 API를 활용해서 데이터 가져오기
     requestAddDocumentKeyword(docId, keywordValue)
       .then(json => json.data)
-      .then(data => createKeywordBoxElement(data));
+      .then(data => {
+        storage.addKeyword(data);
+        keywordComponents.push((new Keyword(data)).render(containerElement));
+      });
   }
 
   docSocket.onclose = (e) => {
@@ -78,11 +67,10 @@ export const Document = () => {
 
   keywordInputButtonElement.onclick = (event) => {
     event.preventDefault();
-    const messageInputDom = keywordInputElement;
-    const message = messageInputDom.value;
+    const message = keywordInputElement.value;
     docSocket.send(JSON.stringify({
         'message': message
     }));
-    messageInputDom.value = '';
+    keywordInputElement.value = '';
   }
 }

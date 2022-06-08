@@ -1,5 +1,5 @@
 import { Component } from './view.js';
-import { Document } from './Document.js';
+import { Document } from './document.js';
 
 class App extends Component {
   render() {

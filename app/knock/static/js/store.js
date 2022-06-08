@@ -1,8 +1,7 @@
 export class DocumentStorage {
-  constructor() {
-    const defaultState = {
-      state: {}
-    }
+  constructor(docId) {
+    this.docId = docId;
+    const defaultState = {}
     this.state = this.get();
     if (this.state===null) {
       this.store(defaultState);
@@ -10,12 +9,18 @@ export class DocumentStorage {
   }
 
   get() {
-    return JSON.parse(localStorage.getItem('document'));
+    return JSON.parse(localStorage.getItem(this.docId));
   }
 
-  store(json) {
-    localStorage.setItem('document', JSON.stringify(json))
-    this.state = json;
+  store(data) {
+    localStorage.setItem(this.docId, JSON.stringify(data))
+    this.state = data;
+    return this;
+  }
+
+  addKeyword(keywordInfo) {
+    this.state.keywords.push(keywordInfo);
+    this.store(this.state);
     return this;
   }
 }

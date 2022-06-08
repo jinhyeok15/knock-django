@@ -21,7 +21,11 @@ class Keyword(models.Model):
     title = models.CharField(max_length=settings.KEYWORD_MAX_LENGTH)
     left = models.IntegerField(default=0)
     top = models.IntegerField(default=0)
-    link_to = models.ManyToManyField('Keyword')
 
     class Meta:
         db_table = 'keyword'
+
+class KeywordLink(models.Model):
+    id = models.AutoField(primary_key=True)
+    from_keyword = models.ForeignKey(Keyword, on_delete=models.CASCADE, related_name='links')
+    to_keyword = models.UUIDField()

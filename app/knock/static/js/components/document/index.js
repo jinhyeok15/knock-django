@@ -34,29 +34,3 @@ export function Container() {
     }
   );
 }
-
-export function KeywordBox(docId, keywordInfo) {
-  const style = `left: ${keywordInfo.left}px; top: ${keywordInfo.top}px;`;
-  return (new Component(
-    `${docId}-keyword-${keywordInfo.id}`,
-    'div',
-    {
-      class: 'keyword-box',
-      style: style
-    }
-  )).text(keywordInfo.title)
-  .child((new Component(
-    null,
-    'a',
-    {
-      href: '',
-      class: 'keyword-clickable',
-    }
-  )).child((new Component(
-    null,
-    'span',
-    {
-      class: 'hyperspan'
-    }
-  ))));
-}
