@@ -65,8 +65,13 @@
 ## 6.9
 
 + class view 적용, mixin, exception 파트 view 로직에서 분리
++ Response custom하기
++ ComponentView 추가 및, 상속하여 component 구조화
++ KeywordDetail update API 추가
+
 
 ## 해야할 것
 
 + delete 및 키워드 상세 조회하기, update
-+ Response custom하기, document_detail validation 로직 적용하기
++ get keyword api 없이 프론트 단에서 키워드 detail 조회하는 방법 적용해보기
++ ComponentView 추가 및, 상속하여 component 구조화

@@ -30,3 +30,20 @@ export function render(component, parent=document.body) {
   }
   return component.elem;
 }
+
+export class ComponentView {
+  constructor(props) { // props type is object
+    this.structure;
+    this.props = props;
+  }
+
+  render(parent) {
+    render(this.structure, parent=parent);
+    this.onListen();
+    return this;
+  }
+
+  onListen() {
+    return this;
+  }
+}

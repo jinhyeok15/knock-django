@@ -29,7 +29,7 @@ requestGetDocumentData(docId)
   .then(docData => storage.store(docData.data))
   .then(loc => loc.state.keywords
     .map(info => keywordComponents.push(
-        (new Keyword(info)).render(containerElement)
+        (new Keyword({'info':info})).render(containerElement)
       )));
 
 // on-listening
@@ -46,7 +46,7 @@ export const Document = () => {
       .then(json => json.data)
       .then(data => {
         storage.addKeyword(data);
-        keywordComponents.push((new Keyword(data)).render(containerElement));
+        keywordComponents.push((new Keyword({'info': data})).render(containerElement));
       });
   }
 

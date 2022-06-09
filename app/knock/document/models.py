@@ -25,6 +25,7 @@ class Keyword(models.Model):
     class Meta:
         db_table = 'keyword'
 
+
 class KeywordLink(models.Model):
     id = models.AutoField(primary_key=True)
     from_keyword = models.ForeignKey(Keyword, on_delete=models.CASCADE, related_name='links')

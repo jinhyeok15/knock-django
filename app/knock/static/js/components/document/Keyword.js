@@ -1,5 +1,4 @@
-import { Component } from "../../view.js";
-import {render as viewRender} from "../../view.js";
+import { Component, ComponentView } from "../../view.js";
 
 function KeywordBox(title) {
   return (new Component(
@@ -32,26 +31,24 @@ function KeywordSpan() {
   );
 }
 
-export class Keyword {
-  constructor(info) {
-    this.info = info;
-    this.structure = KeywordBox(info.title).child(
+function KeywordShow() {
+  return new Component();
+}
+
+export class Keyword extends ComponentView {
+  constructor(props) {
+    super(props);
+    this.structure = KeywordBox(this.props.info.title).child(
       KeywordClickable().child(
         KeywordSpan()
       )
     );
   }
 
-  render(parent) {
-    viewRender(this.structure, parent=parent);
-    this.onListen();
-    return this;
-  }
-
   onListen() {
     this.structure.elem.onclick = (event) => {
       event.preventDefault();
-      console.log(this.info.id);
+      console.log(this.props.info.id);
     }
     return this;
   }
