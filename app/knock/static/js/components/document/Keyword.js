@@ -1,34 +1,19 @@
 import { Component, ComponentView } from "../../view.js";
 
 function KeywordBox(title) {
-  return (new Component(
-    null,
-    'div',
-    {
-      class: 'keyword-box',
-    }
-  )).text(title);
+  return new Component('div')
+    .setCls('keyword-box')
+    .text(title);
 }
 
 function KeywordClickable() {
-  return new Component(
-    null,
-    'a',
-    {
-      href: '',
-      class: 'keyword-clickable',
-    }
-  );
+  return Component.a()
+    .setCls('keyword-clickable');
 }
 
 function KeywordSpan() {
-  return new Component(
-    null,
-    'span',
-    {
-      class: 'hyperspan'
-    }
-  );
+  return new Component('span')
+    .setCls('hyperspan');
 }
 
 function KeywordShow() {
@@ -38,15 +23,15 @@ function KeywordShow() {
 export class Keyword extends ComponentView {
   constructor(props) {
     super(props);
-    this.structure = KeywordBox(this.props.info.title).child(
+    this.structure = [KeywordBox(this.props.info.title).child(
       KeywordClickable().child(
         KeywordSpan()
       )
-    );
+    )];
   }
 
   onListen() {
-    this.structure.elem.onclick = (event) => {
+    this.structure[0].elem.onclick = (event) => {
       event.preventDefault();
       console.log(this.props.info.id);
     }

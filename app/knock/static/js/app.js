@@ -1,12 +1,14 @@
-import { Component } from './view.js';
-import { Document } from './document.js';
+import { ComponentView, Component } from './view.js';
+import { Note } from './components/document/index.js';
 
-class App extends Component {
-  render() {
-    Document();
+class App {
+  constructor(props={}) {
+    new Note(props).render();
   }
 }
 
 window.onload = () => {
-  new App();
+  const docId = JSON.parse(document.getElementById('doc-id').textContent);
+  const props = {docId: docId}
+  new App(props);
 }
