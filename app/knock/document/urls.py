@@ -5,7 +5,7 @@ from . import views
 urlpatterns = [
     # document
     path('document/', include(([
-        path('<str:doc_id>/', views.index, name='document-index')
+        path('<str:doc_id>/', views.DocumentIndexView.as_view(), name='document-index')
     ], 'document'), namespace='document')),
 
     # api

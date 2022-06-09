@@ -62,6 +62,10 @@
 + 새 키워드 추가 시 클릭하면 redirect되는 버그 고치기
 + JsonResponse를 rest-framework Response로 수정하기
 
+## 6.9
+
++ class view 적용, mixin, exception 파트 view 로직에서 분리
+
 ## 해야할 것
 
 + delete 및 키워드 상세 조회하기, update

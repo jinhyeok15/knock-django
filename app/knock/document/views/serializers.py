@@ -1,10 +1,11 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from .models import Document, Keyword
+from ..models import Document, Keyword
 
 
 class DocumentSerializer(ModelSerializer):
     keywords = SerializerMethodField()
+    
     class Meta:
         model = Document
         fields = '__all__'
