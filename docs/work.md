@@ -74,6 +74,7 @@
 + ComponentView 추가 및, 상속하여 component 구조화
 + Component 리팩토링 하기, setId, setClass method 추가하기
 + document -> note로 이름 변경
++ socket 파일 정리하기
 
 ## 해야할 것
 
