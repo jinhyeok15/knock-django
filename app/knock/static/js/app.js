@@ -1,5 +1,4 @@
-import { ComponentView, Component } from './view.js';
-import { Note } from './components/document/index.js';
+import { Note } from './components/note/index.js';
 
 class App {
   constructor(props={}) {
@@ -8,7 +7,7 @@ class App {
 }
 
 window.onload = () => {
-  const docId = JSON.parse(document.getElementById('doc-id').textContent);
-  const props = {docId: docId}
+  const noteId = JSON.parse(document.getElementById('note-id').textContent);
+  const props = {noteId: noteId}
   new App(props);
 }

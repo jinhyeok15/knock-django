@@ -11,7 +11,7 @@ from channels.auth import AuthMiddlewareStack
 from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter, URLRouter
 
-import document.routing
+import note.routing
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'knock.settings')
 
@@ -20,7 +20,7 @@ application = ProtocolTypeRouter({
     # Just HTTP for now. (We can add other protocols later.)
     "websocket": AuthMiddlewareStack(
         URLRouter(
-            document.routing.websocket_urlpatterns
+            note.routing.websocket_urlpatterns
         )
     ),
 })

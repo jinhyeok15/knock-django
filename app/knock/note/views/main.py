@@ -10,12 +10,12 @@ from knock.generic.views.response import (
 )
 
 # mixins
-from .mixins import DocumentMixin
+from .mixins import NoteMixin
 from knock.generic.views.mixins import GenericMixin
 
 # serializers
 from .serializers import (
-    DocumentSerializer, 
+    NoteSerializer, 
     KeywordCreateSerializer, 
     KeywordSerializer
 )
@@ -23,27 +23,27 @@ from .serializers import (
 # exception
 from knock.generic.exceptions import DjangoValidationError, SerializerValidationError
 from ..exceptions import (
-    DocumentDoesNotExistError,
+    NoteDoesNotExistError,
     KeywordDoesNotExistError
 )
 
 # Create your views here.
 
 
-class DocumentIndexView(View):
+class NoteIndexView(View):
     # test doc_id=e7002e35-b6bf-46ec-bce5-e5e0c53c151c
-    def get(self, request, doc_id):
-        return render(request, 'document/index.html', {'docId': doc_id})
+    def get(self, request, note_id):
+        return render(request, 'note/index.html', {'noteId': note_id})
 
 
 # use api
-class DocumentDetail(DocumentMixin, GenericMixin, APIView):
+class NoteDetail(NoteMixin, GenericMixin, APIView):
 
-    def get(self, request, doc_id):
+    def get(self, request, note_id):
         try:
-            obj = self.get_document(doc_id)
-            serializer = DocumentSerializer(obj)
-        except DocumentDoesNotExistError as e:
+            obj = self.get_note(note_id)
+            serializer = NoteSerializer(obj)
+        except NoteDoesNotExistError as e:
             return Response(None, HttpStatus(404, error=e))
         except SerializerValidationError as e:
             return Response(None, HttpStatus(400, error=e))
@@ -51,9 +51,9 @@ class DocumentDetail(DocumentMixin, GenericMixin, APIView):
             return Response(serializer.data, HttpStatus(200))
 
 
-class DocumentKeyword(GenericMixin, APIView):
+class NoteKeyword(GenericMixin, APIView):
 
-    def post(self, request, doc_id):
+    def post(self, request, note_id):
         try:
             serializer = self.get_valid_srz(KeywordCreateSerializer, data=request.data)
             keyword = serializer.save()
@@ -63,7 +63,7 @@ class DocumentKeyword(GenericMixin, APIView):
             return Response(KeywordSerializer(keyword).data, HttpStatus(200))
 
 
-class KeywordDetail(DocumentMixin, GenericMixin, APIView):
+class KeywordDetail(NoteMixin, GenericMixin, APIView):
     
     def get(self, request, keyword_id):
         pass

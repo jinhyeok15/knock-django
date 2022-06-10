@@ -1,9 +1,9 @@
-import { requestAddDocumentKeyword, requestGetDocumentData } from "../../api/request.js";
+import { requestAddNoteKeyword, requestGetNoteData } from "../../api/request.js";
 
 import { Component, ComponentView } from "../../view.js";
 import { Keyword } from "./keyword.js";
-import { getDocSocket } from "../../socket.js";
-import { DocumentStorage } from "../../store.js";
+import { getNoteSocket } from "../../socket.js";
+import { NoteStorage } from "../../store.js";
 
 function KeywordInput() {
   return Component
@@ -31,9 +31,9 @@ export class Note extends ComponentView {
   constructor(props) {
     super(props);
     
-    this.docId = props.docId;
-    this.docSocket = getDocSocket(this.docId);
-    this.storage = new DocumentStorage(this.docId);
+    this.noteId = props.noteId;
+    this.noteSocket = getNoteSocket(this.noteId);
+    this.storage = new NoteStorage(this.noteId);
 
     this.structure = [
       KeywordInput(),
@@ -44,8 +44,8 @@ export class Note extends ComponentView {
   }
 
   render() {
-    requestGetDocumentData(this.docId)
-      .then(docData => this.storage.store(docData.data))
+    requestGetNoteData(this.noteId)
+      .then(noteData => this.storage.store(noteData.data))
       .then(loc => loc.state.keywords
         .map(info => this.keywordComponents.push(
             (new Keyword({'info':info})).render(Container().getElem())
@@ -55,14 +55,14 @@ export class Note extends ComponentView {
   }
 
   onListen() {
-    this.docSocket.onmessage = (e) => {
+    this.noteSocket.onmessage = (e) => {
       const data = JSON.parse(e.data);
       const keywordValue = data.message;
       if (keywordValue === '') {
         return;
       }
       // keywordInfo는 API를 활용해서 데이터 가져오기
-      requestAddDocumentKeyword(this.docId, keywordValue)
+      requestAddNoteKeyword(this.noteId, keywordValue)
         .then(json => json.data)
         .then(data => {
           this.storage.addKeyword(data);
@@ -70,8 +70,8 @@ export class Note extends ComponentView {
         });
     }
   
-    this.docSocket.onclose = (e) => {
-      console.error('doc socket closed unexpectedly');
+    this.noteSocket.onclose = (e) => {
+      console.error('note socket closed unexpectedly');
     };
   
     // enter key 눌렀을 때 버튼 클릭과 동일한 event로 만들기
@@ -88,7 +88,7 @@ export class Note extends ComponentView {
     KeywordInputButton().getElem().onclick = (event) => {
       event.preventDefault();
       const message = KeywordInput().getElem().value;
-      this.docSocket.send(JSON.stringify({
+      this.noteSocket.send(JSON.stringify({
           'message': message
       }));
       KeywordInput().getElem().value = '';

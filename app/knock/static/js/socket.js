@@ -1,7 +1,7 @@
-export const getDocSocket = (docId) => new WebSocket(
+export const getNoteSocket = (noteId) => new WebSocket(
     'ws://'
     + window.location.host
-    + '/ws/doc/'
-    + docId
+    + '/ws/note/'
+    + noteId
     + '/'
   );

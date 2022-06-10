@@ -2,23 +2,23 @@ import json
 from channels.generic.websocket import WebsocketConsumer
 from asgiref.sync import async_to_sync
 
-class DocConsumer(WebsocketConsumer):
+class NoteConsumer(WebsocketConsumer):
     def connect(self):
-        self.doc_id = self.scope['url_route']['kwargs']['doc_id']
-        self.doc_group_id = 'doc_%s' % self.doc_id
+        self.note_id = self.scope['url_route']['kwargs']['note_id']
+        self.note_group_id = 'note_%s' % self.note_id
 
-        # Join doc group
+        # Join note group
         async_to_sync(self.channel_layer.group_add)(
-            self.doc_group_id,
+            self.note_group_id,
             self.channel_name
         )
 
         self.accept()
 
     def disconnect(self, close_code):
-        # Leave doc group
+        # Leave note group
         async_to_sync(self.channel_layer.group_discard)(
-            self.doc_group_id,
+            self.note_group_id,
             self.channel_name
         )
 
@@ -26,9 +26,9 @@ class DocConsumer(WebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
 
-        # Send keyword to doc group
+        # Send keyword to note group
         async_to_sync(self.channel_layer.group_send)(
-            self.doc_group_id,
+            self.note_group_id,
             {
                 'type': 'send_message',
                 'message': message

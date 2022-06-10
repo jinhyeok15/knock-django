@@ -1,18 +1,18 @@
 from ..models import *
 from ..exceptions import (
-    DocumentDoesNotExistError,
+    NoteDoesNotExistError,
     KeywordDoesNotExistError
 )
 
 from django.core.exceptions import ObjectDoesNotExist
 
 
-class DocumentCRUDMixin:
-    def get_document(self, doc_id):
+class NoteCRUDMixin:
+    def get_note(self, note_id):
         try:
-            return Document.objects.get(pk=doc_id)
+            return Note.objects.get(pk=note_id)
         except ObjectDoesNotExist:
-            raise DocumentDoesNotExistError
+            raise NoteDoesNotExistError
     
     def update_keyword(self, keyword_id, **kwargs):
         try:
@@ -23,10 +23,10 @@ class DocumentCRUDMixin:
             raise KeywordDoesNotExistError
 
 
-class DocumentValidationMixin:
+class NoteValidationMixin:
     pass
 
 
-class DocumentMixin(
-    DocumentCRUDMixin
+class NoteMixin(
+    NoteCRUDMixin
 ): pass

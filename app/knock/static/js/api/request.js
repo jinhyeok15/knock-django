@@ -1,18 +1,18 @@
 import { LOCALHOST, POST, PUT, GET } from './http.js';
 
 // uri
-const DOCUMENT_KEYWORD_URI = (docId='') => `/api/document/${docId}/keyword/`;
-const DOCUMENT_DETAIL_URI = (docId='') => `/api/document/${docId}/`;
+const NOTE_KEYWORD_URI = (noteId='') => `/api/note/${noteId}/keyword/`;
+const NOTE_DETAIL_URI = (noteId='') => `/api/note/${noteId}/`;
 
 // requests
-export const requestAddDocumentKeyword = async (docId, title) => {
+export const requestAddNoteKeyword = async (noteId, title) => {
   const body = {
-    "document": docId,
+    "note": noteId,
     "title": title
   };
-  return await POST(`${LOCALHOST}${DOCUMENT_KEYWORD_URI(docId)}`, body);
+  return await POST(`${LOCALHOST}${NOTE_KEYWORD_URI(noteId)}`, body);
 }
 
-export const requestGetDocumentData = async (docId) => {
-  return await GET(`${LOCALHOST}${DOCUMENT_DETAIL_URI(docId)}`);
+export const requestGetNoteData = async (noteId) => {
+  return await GET(`${LOCALHOST}${NOTE_DETAIL_URI(noteId)}`);
 }

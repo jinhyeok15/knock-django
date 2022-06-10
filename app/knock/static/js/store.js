@@ -1,6 +1,6 @@
-export class DocumentStorage {
-  constructor(docId) {
-    this.docId = docId;
+export class NoteStorage {
+  constructor(noteId) {
+    this.noteId = noteId;
     const defaultState = {}
     this.state = this.get();
     if (this.state===null) {
@@ -9,11 +9,11 @@ export class DocumentStorage {
   }
 
   get() {
-    return JSON.parse(localStorage.getItem(this.docId));
+    return JSON.parse(localStorage.getItem(this.noteId));
   }
 
   store(data) {
-    localStorage.setItem(this.docId, JSON.stringify(data))
+    localStorage.setItem(this.noteId, JSON.stringify(data))
     this.state = data;
     return this;
   }

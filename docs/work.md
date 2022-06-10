@@ -73,8 +73,10 @@
 
 + ComponentView 추가 및, 상속하여 component 구조화
 + Component 리팩토링 하기, setId, setClass method 추가하기
++ document -> note로 이름 변경
 
 ## 해야할 것
 
 + delete 및 키워드 상세 조회하기, update
 + get keyword api 없이 프론트 단에서 키워드 detail 조회하는 방법 적용해보기
++ keyword detail component 그리기

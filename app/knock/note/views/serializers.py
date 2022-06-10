@@ -1,13 +1,13 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from ..models import Document, Keyword
+from ..models import Note, Keyword
 
 
-class DocumentSerializer(ModelSerializer):
+class NoteSerializer(ModelSerializer):
     keywords = SerializerMethodField()
     
     class Meta:
-        model = Document
+        model = Note
         fields = '__all__'
 
     def get_keywords(self, obj):
@@ -18,7 +18,7 @@ class KeywordCreateSerializer(ModelSerializer):
     class Meta:
         model = Keyword
         fields = [
-            'document',
+            'note',
             'title',
         ]
 

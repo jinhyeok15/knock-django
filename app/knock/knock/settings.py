@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'channels',
     'rest_framework',
     # Local apps
-    'document',
+    'note',
 ]
 
 MIDDLEWARE = [
@@ -133,7 +133,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 
-# Document settings
+# Note settings
 KEYWORD_MAX_LENGTH = 12
 MAX_LEFT = 800
 MAX_TOP = 600
