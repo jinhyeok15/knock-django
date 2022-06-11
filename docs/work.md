@@ -78,11 +78,15 @@
 
 ## 6.11
 
-+ Structure, Component 구조 변경, Structure.child 메소드 변경
-    > Component와 ComponentView가 변수명 작성시 완벽하게 구분이 안되는 문제가 있었음
-    > Component -> Structure, ComponentView -> Component로 class명을 수정하였음
-    > Structure 여러개를 한번에 rendering 할 때 index.js에서 하나의 structure로 관리하는 것에 대한 문제점이 있었음. 이 문제를 Structure.child 메소드에서 배열로 structure 인자를 받아서 해결함.
-+ child 부분 single Structure도 허용하게 수정
+feat: Structure, Component 구조 변경, Structure.child 메소드 변경
+
+> Component와 ComponentView가 변수명 작성시 완벽하게 구분이 안되는 문제가 있었음
+> Component -> Structure, ComponentView -> Component로 class명을 수정하였음
+> Structure 여러개를 한번에 rendering 할 때 index.js에서 하나의 structure로 관리하는 것에 대한 문제점이 있었음. 이 문제를 Structure.child 메소드에서 배열로 structure 인자를 받아서 해결함.
+
+feat: child 부분 single Structure도 허용하게 수정
+
++ onState 파트 구현 && parent 인자에 undefined|Structure만 허용하는 로직 구현
 
 ## 해야할 것
 

@@ -1,7 +1,7 @@
 import { requestAddNoteKeyword, requestGetNoteData } from "../../api/request.js";
 
 import { Component, Structure, Main } from "../../view.js";
-import { Keyword } from "./keyword.js";
+import { Keyword, KeywordDetailContainer } from "./keyword.js";
 import { getNoteSocket } from "../../socket.js";
 import { NoteStorage } from "../../store.js";
 
@@ -38,21 +38,26 @@ export class Note extends Component {
     
     this.main = new Main();
     this.structure = this.main
-      .child([KeywordInput(), KeywordInputButton(), Container()]);
-    
-    this.getKeywordComponent = (info) => new Keyword({
-      'info':info,
-    });
+      .child([
+        KeywordInput(), 
+        KeywordInputButton(), 
+        Container(),
+        KeywordDetailContainer()
+      ]);
 
     this.keywordStructures = [];
   }
+
+  getKeywordComponent = (info) => new Keyword({
+    'info':info,
+  });
 
   render() {
     requestGetNoteData(this.noteId)
       .then(noteData => this.storage.store(noteData.data))
       .then(loc => loc.state.keywords
         .map(info => this.keywordStructures.push(
-            this.getKeywordComponent(info).render(Container().getElem())
+            this.getKeywordComponent(info).render(Container())
         )));
 
     super.render();
@@ -70,7 +75,7 @@ export class Note extends Component {
         .then(json => json.data)
         .then(data => {
           this.storage.addKeyword(data);
-          this.keywordStructures.push(this.getKeywordComponent(data).render(Container().getElem()));
+          this.keywordStructures.push(this.getKeywordComponent(data).render(Container()));
         });
     }
   
@@ -79,7 +84,7 @@ export class Note extends Component {
     };
   
     // enter key 눌렀을 때 버튼 클릭과 동일한 event로 만들기
-    KeywordInput().getElem().onkeypress = (event) => {
+    KeywordInput().getElem().onkeydown = (event) => {
       // If the user presses the "Enter" key on the keyboard
       if (event.key === "Enter") {
         // Cancel the default action, if needed

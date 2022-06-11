@@ -13,17 +13,15 @@ function KeywordClickable() {
     .setCls('keyword-clickable');
 }
 
+export function KeywordDetailContainer() {
+  return new Structure('div', {'style': 'display: none;'})
+    .setCls('keyword-detail-container')
+    .setId('keyword-detail-container');
+}
+
 function KeywordSpan() {
   return new Structure('span')
     .setCls('hyperspan');
-}
-
-function KeywordCheckBox() {
-  return new Structure('input', {
-    'type': 'checkbox',
-    'name': 'keywordCheckBox',
-    'style': 'display: none;'
-  })
 }
 
 export class Keyword extends Component {
@@ -31,16 +29,22 @@ export class Keyword extends Component {
     super(props);
 
     this.structure = KeywordBox(this.props.info.title).child(
-      [KeywordClickable().child(KeywordSpan()),
-      KeywordCheckBox()]
+      KeywordClickable().child(KeywordSpan())
     );
   }
 
   onListen() {
-    const keywordId = this.props.info.id;
     this.structure.getElem().onclick = (event) => {
       event.preventDefault();
-      console.log(keywordId);
+      let onState;
+      let KeywordDetailContainerElem = document.getElementById(
+          KeywordDetailContainer().id
+        );
+      
+      onState = KeywordDetailContainerElem.style.display==='none' ? false : true;
+      if (onState) {
+        KeywordDetailContainerElem.style.display = 'none';
+      } else KeywordDetailContainerElem.style.display = 'inline';
     }
     return this;
   }
