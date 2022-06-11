@@ -3,16 +3,22 @@ body {
   font-family: 'roboto', 'arial';
 }
 
+main {
+  border: solid 1px;
+  width: 1440px;
+  height: 1080px;
+}
+
+ul {
+  list-style: none;
+}
+
 .container {
   position: absolute;
   width: 800px;
   height: 600px;
   background-color: aliceblue;
   align-items: center;
-}
-
-ul {
-  list-style: none;
 }
 
 .keyword-box {
@@ -40,4 +46,13 @@ ul {
 
 .keyword-submit {
   display: none;
+}
+
+.keyword-detail-container {
+  position:absolute;
+  left: 800px;
+  top: 20px;
+  width: 200px;
+  height: 600px;
+  background-color: cornflowerblue;
 }

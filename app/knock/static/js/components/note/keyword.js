@@ -1,39 +1,46 @@
-import { Component, ComponentView } from "../../view.js";
+import { Component, Structure } from "../../view.js";
 
 function KeywordBox(title) {
-  return new Component('div')
+  return new Structure('div')
     .setCls('keyword-box')
     .text(title);
 }
 
 function KeywordClickable() {
-  return Component.a()
+  return new Structure('a', {
+      'href': ''
+    })
     .setCls('keyword-clickable');
 }
 
 function KeywordSpan() {
-  return new Component('span')
+  return new Structure('span')
     .setCls('hyperspan');
 }
 
-function KeywordShow() {
-  return new Component();
+function KeywordCheckBox() {
+  return new Structure('input', {
+    'type': 'checkbox',
+    'name': 'keywordCheckBox'
+  })
 }
 
-export class Keyword extends ComponentView {
+export class Keyword extends Component {
   constructor(props) {
     super(props);
-    this.structure = [KeywordBox(this.props.info.title).child(
-      KeywordClickable().child(
-        KeywordSpan()
-      )
-    )];
+
+    this.structure = KeywordBox(this.props.info.title).child(
+      [KeywordClickable().child(
+        [KeywordSpan()]
+      )]
+    );
   }
 
   onListen() {
-    this.structure[0].elem.onclick = (event) => {
+    const keywordId = this.props.info.id;
+    this.structure.getElem().onclick = (event) => {
       event.preventDefault();
-      console.log(this.props.info.id);
+      console.log(keywordId);
     }
     return this;
   }

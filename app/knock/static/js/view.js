@@ -1,22 +1,11 @@
-export class Component {
+export class Structure {
   constructor(element, attr={}) {
     this.id;
     this.elem = document.createElement(element);
     Object.entries(attr)
       .map(([key, val] = entry) => this.elem.setAttribute(key, val));
+    this.state = {};
     this.write = false;
-  }
-
-  static a = (href='', attr={}) => {
-    return new Component('a', Object.assign({}, {href:href}, attr));
-  }
-
-  static input = (type='', attr={}) => {
-    return new Component('input', Object.assign({}, {'type':type}, attr));
-  }
-
-  static button = (type='', attr={}) => {
-    return new Component('button', Object.assign({}, {'type':type}, attr));
   }
 
   setId(id) {
@@ -39,13 +28,8 @@ export class Component {
     return this;
   }
 
-  child(component) {
-    this.elem.appendChild(component.elem);
-    return this;
-  }
-
-  nextNode(component) {
-    this.elem.after(component.elem);
+  child(components) {
+    components.forEach(component => this.elem.appendChild(component.elem));
     return this;
   }
 
@@ -53,26 +37,41 @@ export class Component {
     this.elem.innerText = t;
     return this;
   }
-}
 
-export function renderComponent(component, parent=document.body) {
-  if (component.write===false) {
-    parent.appendChild(component.getElem());
-    component.write=true;
+  setState(state) {
+    Object.assign(this.state, state);
+    return this;
   }
-  return component;
 }
 
-export class ComponentView {
+export class Main extends Structure {
+  constructor() {
+    super('main');
+  }
+}
+
+export function renderStructure(structure, parent=document.body) {
+  if (structure.write===false) {
+    parent.appendChild(structure.getElem());
+    structure.write=true;
+  }
+  return structure;
+}
+
+export class Component {
   constructor(props={}) { // props type is object
     this.storage;
     this.structure;
+    this.structures=[];
     this.props = props;
   }
 
   render(parent) {
-    this.structure
-      .map(comp => renderComponent(comp, parent=parent));
+    if (this.structures.length !== 0) {
+      this.structures.forEach((structure) => {
+        renderStructure(structure, parent=parent);
+      })
+    } else { renderStructure(this.structure, parent=parent) }
     this.onListen();
     return this;
   }

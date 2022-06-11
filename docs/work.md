@@ -76,6 +76,13 @@
 + document -> note로 이름 변경
 + socket 파일 정리하기
 
+## 6.11
+
++ Structure, Component 구조 변경, Structure.child 메소드 변경
+    > Component와 ComponentView가 변수명 작성시 완벽하게 구분이 안되는 문제가 있었음
+    > Component -> Structure, ComponentView -> Component로 class명을 수정하였음
+    > Structure 여러개를 한번에 rendering 할 때 index.js에서 하나의 structure로 관리하는 것에 대한 문제점이 있었음. 이 문제를 Structure.child 메소드에서 배열로 structure 인자를 받아서 해결함.
+
 ## 해야할 것
 
 + delete 및 키워드 상세 조회하기, update
