@@ -36,7 +36,8 @@ export class Note extends Component {
     this.noteSocket = getNoteSocket(this.noteId);
     this.storage = new NoteStorage(this.noteId);
     
-    this.structure = new Main()
+    this.main = new Main();
+    this.structure = this.main
       .child([KeywordInput(), KeywordInputButton(), Container()]);
     
     this.getKeywordComponent = (info) => new Keyword({

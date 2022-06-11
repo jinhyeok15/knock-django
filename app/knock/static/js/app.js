@@ -8,6 +8,6 @@ class App {
 
 window.onload = () => {
   const noteId = JSON.parse(document.getElementById('note-id').textContent);
-  const props = {noteId: noteId}
+  const props = {noteId: noteId};
   new App(props);
 }

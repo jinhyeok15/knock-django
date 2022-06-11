@@ -29,7 +29,9 @@ export class Structure {
   }
 
   child(components) {
-    components.forEach(component => this.elem.appendChild(component.elem));
+    if (Array.isArray(components))
+      components.forEach(component => this.elem.appendChild(component.elem));
+    else this.elem.appendChild(components.elem);
     return this;
   }
 

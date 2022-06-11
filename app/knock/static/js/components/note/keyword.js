@@ -21,7 +21,8 @@ function KeywordSpan() {
 function KeywordCheckBox() {
   return new Structure('input', {
     'type': 'checkbox',
-    'name': 'keywordCheckBox'
+    'name': 'keywordCheckBox',
+    'style': 'display: none;'
   })
 }
 
@@ -30,9 +31,8 @@ export class Keyword extends Component {
     super(props);
 
     this.structure = KeywordBox(this.props.info.title).child(
-      [KeywordClickable().child(
-        [KeywordSpan()]
-      )]
+      [KeywordClickable().child(KeywordSpan()),
+      KeywordCheckBox()]
     );
   }
 
