@@ -7,8 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KnocK</title>
   <link rel="stylesheet" href="{% static 'css/index.css' %}">
-  <script type="module" src="{% static 'js/app.js' %}"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- try jsx by add babel -->
+  <script type="text/babel" src="{% static 'index.jsx' %}"></script>
+  <script type="text/babel" src="{% static 'src/component/note/index.jsx' %}"></script>
   {{ noteId|json_script:"note-id" }}
 </head>
-<body></body>
+<body>
+  <main id="root"></main>
+</body>
 </html>
